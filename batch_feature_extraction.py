@@ -114,7 +114,7 @@ def process_files(data_folder, files_list, output_filename):
         ##### START 2. Time domain data extraction #####
 
         # Create bins of the time domain signal and get some statistics for each group of N samples. This is equivalent to downsampling the data + calculating statistics
-        grouped_adc_df = df.groupby(np.arange(len(df.index))//NUMBER_OF_SAMPLES_PER_TIME_DOMAIN_GROUP, axis=0)
+        grouped_adc_df = df.groupby(np.arange(len(df.index))//NUMBER_OF_SAMPLES_PER_TIME_DOMAIN_GROUP)
         binned_df = grouped_adc_df.aggregate(aggregate_dict)
 
         ##### END 2. Time domain data extraction #####
