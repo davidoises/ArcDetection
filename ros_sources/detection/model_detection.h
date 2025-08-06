@@ -11,14 +11,19 @@ namespace ARC::DETECT
     {
         public:
 
-            using MsgType = ARC::DEFS::MsgType;
+            using InputMsgType = ARC::DEFS::AdcDataType;
+            using OutputMsgType = ARC::DEFS::DetectionDataType;
 
             DetectionModel();
 
         private:
 
-            void process(const MsgType::UniquePtr msg);
+            // Output data
+            OutputMsgType message_;
 
-            rclcpp::Subscription<MsgType>::SharedPtr subscription_;
+            void process(const InputMsgType::UniquePtr msg);
+
+            rclcpp::Subscription<InputMsgType>::SharedPtr subscription_;
+            rclcpp::Publisher<OutputMsgType>::SharedPtr publisher_;
     };
 }

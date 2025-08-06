@@ -27,10 +27,15 @@ namespace ARC::ADC
 
     void ADCModel::process()
     {
-        if (publisher_->get_subscription_count() < 1u)
+        if (publisher_->get_subscription_count() < 2u)
         {
             // Wait for PlotJuggler and the detection model
             return;
+        }
+
+        if (row_index_ == 0u)
+        {
+            RCLCPP_INFO(get_logger(), "Starting to publish data");
         }
 
         if (row_index_ < input_file_rows_.size())
