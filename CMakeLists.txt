@@ -17,12 +17,13 @@ find_package(std_msgs REQUIRED)
 set(ADC_EXECUTABLE adc_model)
 
 set(ADC_SRC_FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/adc/main.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/adc/model_adc.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ros_sources/adc/main.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ros_sources/adc/model_adc.cpp
 )
 
 set(ADC_INC_DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/adc/
+    ${CMAKE_CURRENT_SOURCE_DIR}/ros_sources/common/
+    ${CMAKE_CURRENT_SOURCE_DIR}/ros_sources/adc/
 )
 
 add_executable(${ADC_EXECUTABLE}
@@ -38,12 +39,13 @@ ament_target_dependencies(${ADC_EXECUTABLE} rclcpp std_msgs)
 set(DETECTION_EXECUTABLE detection_model)
 
 set(DETECTION_SRC_FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/detection/main.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/detection/model_detection.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ros_sources/detection/main.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ros_sources/detection/model_detection.cpp
 )
 
 set(DETECTION_INC_DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/detection/
+    ${CMAKE_CURRENT_SOURCE_DIR}/ros_sources/common/
+    ${CMAKE_CURRENT_SOURCE_DIR}/ros_sources/detection/
 )
 
 add_executable(${DETECTION_EXECUTABLE}

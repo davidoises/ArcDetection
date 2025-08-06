@@ -6,7 +6,7 @@ namespace ARC::DETECT
     DetectionModel::DetectionModel() :
         Node("detection_model")
     {
-        subscription_ = this->create_subscription<MsgType>("current_measurement", 10, [this](MsgType::UniquePtr msg){
+        subscription_ = this->create_subscription<MsgType>(ARC::DEFS::current_measurement_topic, 10, [this](MsgType::UniquePtr msg){
             process(std::move(msg));
         });
     }

@@ -9,7 +9,7 @@ namespace ARC::ADC
         Node("adc_model"),
         execution_period_(500ms)
     {
-        publisher_ = create_publisher<MsgType>("current_measurement", 10);
+        publisher_ = create_publisher<MsgType>(ARC::DEFS::current_measurement_topic, 10);
 
         timer_ = create_wall_timer(execution_period_, [this](){
             // this->process();

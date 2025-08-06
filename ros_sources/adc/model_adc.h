@@ -1,12 +1,16 @@
+#pragma once
+
+#include "common_definitions.h"
+
+// ROS includes
 #include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/float32.hpp"
 
 namespace ARC::ADC
 {
     class ADCModel : public rclcpp::Node
     {
         public:
-            using MsgType = std_msgs::msg::Float32;
+            using MsgType = ARC::DEFS::MsgType;
 
             ADCModel();
 
