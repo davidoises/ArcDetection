@@ -5,6 +5,9 @@
 // ROS includes
 #include "rclcpp/rclcpp.hpp"
 
+// System includes
+#include <array> // std::array
+
 namespace ARC::DETECT
 {
     class DetectionModel : public rclcpp::Node
@@ -17,6 +20,9 @@ namespace ARC::DETECT
             DetectionModel();
 
         private:
+
+            // Containers for data processing operations
+            std::array<float, 512> fft_buffer_;
 
             // Output data
             OutputMsgType message_;

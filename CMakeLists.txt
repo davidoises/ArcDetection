@@ -18,7 +18,7 @@ set(ADC_EXECUTABLE adc_model)
 
 set(ADC_SRC_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/ros_sources/adc/main.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/ros_sources/adc/model_adc.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ros_sources/adc/adc_model.cpp
 )
 
 set(ADC_INC_DIRS
@@ -40,7 +40,7 @@ set(DETECTION_EXECUTABLE detection_model)
 
 set(DETECTION_SRC_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/ros_sources/detection/main.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/ros_sources/detection/model_detection.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ros_sources/detection/detection_model.cpp
 )
 
 set(DETECTION_INC_DIRS

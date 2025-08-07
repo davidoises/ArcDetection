@@ -1,4 +1,4 @@
-#include "model_detection.h"
+#include "detection_model.h"
 
 // ROS includes
 #include "rclcpp/rclcpp.hpp"
