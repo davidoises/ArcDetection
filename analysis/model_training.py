@@ -3,14 +3,18 @@ import numpy as np
 from sklearn import svm, metrics
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
+from os import path
+import sys
 
 
-FEATURE_INDICES = np.array([ 6, 11, 17, 31, 86])
+# FEATURE_INDICES = np.array([ 6, 11, 17, 31, 86])
+FEATURE_INDICES = np.array([ 94,  99, 105, 119, 174])
 DISPLAY_CONFUSION = False
 
 print("STARTING")
 print("\r\nLOADING INPUT DATASET\r\n")
-processed_dataset = "preprocessed_data/processed_data.csv"
+basepath = path.dirname(sys.argv[0])
+processed_dataset = path.join(basepath, "preprocessed_data/processed_data_2.csv")
 df = pd.read_csv(processed_dataset)
 
 
