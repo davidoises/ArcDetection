@@ -11,6 +11,21 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+
+########### Messages ###########
+
+set(MSG_FILES
+  "interfaces/msg/FFT.msg"
+  "interfaces/msg/MLFeatures.msg"
+  "interfaces/msg/IndexedSeries.msg"
+)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  ${MSG_FILES}
+)
+
+ament_export_dependencies(rosidl_default_runtime)
 
 ########### ADC Node ###########
 
@@ -32,6 +47,11 @@ add_executable(${ADC_EXECUTABLE}
 target_include_directories(${ADC_EXECUTABLE} PRIVATE  
     ${ADC_INC_DIRS}
 )
+
+rosidl_get_typesupport_target(cpp_typesupport_target
+  ${PROJECT_NAME} rosidl_typesupport_cpp)
+target_link_libraries(${ADC_EXECUTABLE} "${cpp_typesupport_target}")
+
 ament_target_dependencies(${ADC_EXECUTABLE} rclcpp std_msgs)
 
 ########### Arc detection Node ###########
@@ -54,6 +74,14 @@ add_executable(${DETECTION_EXECUTABLE}
 target_include_directories(${DETECTION_EXECUTABLE} PRIVATE  
     ${DETECTION_INC_DIRS}
 )
+# Link FFTW
+find_library(FFTW_LIB fftw3 REQUIRED)
+target_link_libraries(${DETECTION_EXECUTABLE} ${FFTW_LIB})
+
+rosidl_get_typesupport_target(cpp_typesupport_target
+  ${PROJECT_NAME} rosidl_typesupport_cpp)
+target_link_libraries(${DETECTION_EXECUTABLE} "${cpp_typesupport_target}")
+
 ament_target_dependencies(${DETECTION_EXECUTABLE} rclcpp std_msgs)
 
 ########### Installing ###########

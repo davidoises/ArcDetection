@@ -7,6 +7,7 @@
 
 // System includes
 #include <string> // std::string
+#include <chrono> // std::chrono::microseconds
 
 namespace ARC::ADC
 {
@@ -52,7 +53,7 @@ namespace ARC::ADC
 
             // Periodic execution of the adc process
             rclcpp::TimerBase::SharedPtr timer_;
-            std::chrono::microseconds execution_period_;
+            static constexpr std::chrono::microseconds execution_period_{5000};
 
             rclcpp::Publisher<MsgType>::SharedPtr publisher_;
     };

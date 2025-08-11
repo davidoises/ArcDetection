@@ -7,16 +7,12 @@
 #include <vector> // std::vector
 #include <iomanip>  // std::fixed, std::setprecision, std::setw
 
-
-using namespace std::chrono_literals;
-
 namespace ARC::ADC
 {
 
     ADCModel::ADCModel() :
         Node("adc_model"),
-        row_index_(0u),
-        execution_period_(500us)
+        row_index_(0u)
     {
         publisher_ = create_publisher<MsgType>(ARC::DEFS::current_measurement_topic, 10);
 
@@ -40,6 +36,7 @@ namespace ARC::ADC
 
         if (row_index_ < input_file_rows_.size())
         {
+            message_.index = static_cast<uint32_t>(row_index_);
             message_.data = input_file_rows_[row_index_][1u];
             RCLCPP_DEBUG(get_logger(), "Data: '%f'", message_.data);
             publisher_->publish(message_);

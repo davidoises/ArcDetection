@@ -13,7 +13,8 @@ int main(int argc, char * argv[])
     // Find path of current directory to process the input file
     const std::string file_path = __FILE__;
     const std::string dir_path = file_path.substr(0, file_path.find_last_of("/\\"));
-    const std::string input_file_path = dir_path + "/../../arc_data/raw/test_A0_B3_C3_D5_A300_B150_C200_D330_A0.00017_B0.00017_C0.00014_D0.00015_arc1.csv";
+    // const std::string input_file_path = dir_path + "/../../arc_data/raw/test_A0_B3_C3_D5_A300_B150_C200_D330_A0.00017_B0.00017_C0.00014_D0.00015_arc1.csv";
+    const std::string input_file_path = dir_path + "/../../arc_data/raw/test_A0_B6_C3_D5_A300_B150_C430_D330_A1e-05_B0.00017_C0.00014_D1e-05_arc1.csv";
 
     rclcpp::init(argc, argv);
 
