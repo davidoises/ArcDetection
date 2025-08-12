@@ -7,14 +7,14 @@ from os import path
 import sys
 
 
-# FEATURE_INDICES = np.array([ 6, 11, 17, 31, 86])
-FEATURE_INDICES = np.array([ 94,  99, 105, 119, 174])
+# FEATURE_INDICES = np.array([ 6, 11, 17, 31, 86]) # double window differences
+FEATURE_INDICES = np.array([ 93,  96, 102, 104, 174]) # double window
 DISPLAY_CONFUSION = False
 
 print("STARTING")
 print("\r\nLOADING INPUT DATASET\r\n")
 basepath = path.dirname(sys.argv[0])
-processed_dataset = path.join(basepath, "preprocessed_data/processed_data_2.csv")
+processed_dataset = path.join(basepath, "preprocessed_data/processed_data.csv")
 df = pd.read_csv(processed_dataset)
 
 

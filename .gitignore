@@ -14,3 +14,6 @@ arc_env/
 
 # Data
 arc_data/
+
+# Compiling
+build/
