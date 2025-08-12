@@ -34,11 +34,14 @@ namespace ARC::DETECT
             static constexpr float SAMPLING_RATE = 250000;
             static constexpr float BIN_WIDTH = SAMPLING_RATE/static_cast<float>(BUFFER_SIZE);
 
+            static constexpr std::array<float, 5u> ML_COEFS = {0.00118217f, 0.00097595f, 0.00121148f, 0.00081282f, 0.00118098f};
+            static constexpr float ML_INTERCEPT = -1.00314153f + 0.999; /** TODO: Removed the 0.999 */
+
             // Containers for data processing operations
             std::array<double, BUFFER_SIZE> fft_buffer_;
             size_t fft_buffer_index_;
-            // std::array<ArcFeatures_U, WINDOW_SIZE> detection_window_;
             std::deque<ArcFeatures_U> detection_window_;
+            ArcFeatures_U ml_input_;
 
             // Used by FFTW to calculate fft
             std::array<fftw_complex, BUFFER_SIZE> fft_res_;
@@ -74,6 +77,13 @@ namespace ARC::DETECT
              *        detection model.
              * 
              */
-            void preprocess_features();
+            void process_features();
+
+            /**
+             * @brief Triggered once features are ready for the SVM model. Executes the model based
+             *        on the training resulting weights.
+             * 
+             */
+            void process_ml_model();
     };
 }

@@ -1,0 +1,2 @@
+float32 decision_function
+bool result

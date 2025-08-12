@@ -18,6 +18,7 @@ find_package(rosidl_default_generators REQUIRED)
 set(MSG_FILES
   "interfaces/msg/FFT.msg"
   "interfaces/msg/MLFeatures.msg"
+  "interfaces/msg/MLResult.msg"
   "interfaces/msg/IndexedSeries.msg"
 )
 

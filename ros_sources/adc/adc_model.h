@@ -53,7 +53,7 @@ namespace ARC::ADC
 
             // Periodic execution of the adc process
             rclcpp::TimerBase::SharedPtr timer_;
-            static constexpr std::chrono::microseconds execution_period_{5000};
+            static constexpr std::chrono::microseconds execution_period_{1000};
 
             rclcpp::Publisher<MsgType>::SharedPtr publisher_;
     };

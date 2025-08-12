@@ -93,7 +93,7 @@ namespace ARC::DETECT
 
             // Publishing for FFT visualization
             fft_publisher_->publish(fft_message_);
-            std::this_thread::sleep_for(std::chrono::microseconds(50));
+            std::this_thread::sleep_for(std::chrono::microseconds(500));
         }
 
         // Publish raw features for visualization
@@ -109,24 +109,87 @@ namespace ARC::DETECT
             // If the window is full start shifting data and adding new elements at the end
             detection_window_.pop_front();
             detection_window_.push_back(extracted_features);
-            preprocess_features();
+            process_features();
         }
-
-
-        // if (message_.data)
-        // {
-        //     message_.data = false;
-        // }
-        // else
-        // {
-        //     message_.data = true;
-        // }
-        // publisher_->publish(message_);
     }
 
-    void DetectionModel::preprocess_features()
+    void DetectionModel::process_features()
     {
+        // Find the min and max for the first half of the detection window
+        ArcFeatures_U min_values = detection_window_.front();
+        ArcFeatures_U max_values = detection_window_.front();
+        for (size_t i = 0u; i < detection_window_.size()/2u; i++)
+        {
+            const ArcFeatures_U& raw_feats = detection_window_[i];
+            for (size_t j = 0u; j < raw_feats.cols.size(); j++)
+            {
+                // Compare for min value
+                if (raw_feats.cols[j] < min_values.cols[j])
+                {
+                    min_values.cols[j] = raw_feats.cols[j];
+                }
 
+                // Compare for max value
+                if (raw_feats.cols[j] > max_values.cols[j])
+                {
+                    max_values.cols[j] = raw_feats.cols[j];
+                }
+            }
+        }
+
+        // Apply min-max scaling to the whole window
+        std::array<ArcFeatures_U, WINDOW_SIZE> scaled_window;
+        for (size_t i = 0u; i < detection_window_.size(); i++)
+        {
+            ArcFeatures_U scaled_feats = detection_window_[i];
+            for (size_t j = 0u; j < scaled_feats.cols.size(); j++)
+            {
+                scaled_feats.cols[j] = (scaled_feats.cols[j] - min_values.cols[j])/(max_values.cols[j] - min_values.cols[j]);
+            }
+            scaled_window[i] = scaled_feats;
+        }
+
+        ml_input_ = {};
+        // Sum all the scaled features into a single value (aggregate them)
+        for (size_t i = scaled_window.size()/2u; i < scaled_window.size(); i++)
+        {
+            const ArcFeatures_U& scaled_feats = scaled_window[i];
+            for (size_t j = 0u; j < scaled_feats.cols.size(); j++)
+            {
+                ml_input_.cols[j] += scaled_feats.cols[j];
+            }
+        }
+
+        // Divide the sums to get the average
+        for (size_t j = 0u; j < ml_input_.cols.size(); j++)
+        {
+            ml_input_.cols[j] /= static_cast<float>(scaled_window.size()/2u);
+        }
+
+        // Publish features for visualization
+        features_publisher_->publish(ml_input_.data);
+
+        process_ml_model();
+    }
+
+    void DetectionModel::process_ml_model()
+    {
+        float result = 0.0f;
+        for (size_t i = 0u; i < ml_input_.cols.size(); i++)
+        {
+            result += ml_input_.cols[i]*ML_COEFS[i];
+        }
+        result += ML_INTERCEPT;
+
+        bool detected = false;
+        if (result > 0.0f)
+        {
+            detected = true;
+        }
+
+        result_message_.decision_function = result;
+        result_message_.result = detected;
+        result_publisher_->publish(result_message_);
     }
 
 }

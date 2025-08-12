@@ -3,6 +3,7 @@
 // Custom message
 #include "arc_detection/msg/fft.hpp"
 #include "arc_detection/msg/ml_features.hpp"
+#include "arc_detection/msg/ml_result.hpp"
 #include "arc_detection/msg/indexed_series.hpp"
 
 // ROS includes
@@ -15,7 +16,7 @@
 namespace ARC::DEFS
 {
     using AdcDataType = arc_detection::msg::IndexedSeries;
-    using DetectionDataType = std_msgs::msg::Bool;
+    using DetectionDataType = arc_detection::msg::MLResult;
     using FFTDataType = arc_detection::msg::FFT;
     using MLFeaturesDataType = arc_detection::msg::MLFeatures;
 
