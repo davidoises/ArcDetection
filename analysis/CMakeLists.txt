@@ -14,3 +14,7 @@ set(EXECUTABLE ${CMAKE_PROJECT_NAME})
 add_executable(${EXECUTABLE}
     ${SRCS}
 )
+
+# Link FFTW
+find_library(FFTW_LIB fftw3 REQUIRED)
+target_link_libraries(${EXECUTABLE} ${FFTW_LIB})

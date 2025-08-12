@@ -1,9 +1,21 @@
+// FFTW library
+#include <fftw3.h>
+
 #include <stdio.h> // printf
 #include <string> // std::string
 #include <filesystem> // std::filesystem::path, std::filesystem::exists, std::filesystem::remove, std::filesystem::directory_iterator, std::filesystem::directory_entry
 #include <vector> // std::vector
+#include <array> // std::array
 #include <fstream> // std::ifstream
 #include <sstream> // std::stringstream, std::ostringstream
+
+// Some parameters that define the model behavior
+static constexpr std::size_t BUFFER_SIZE = 512u;
+static constexpr std::size_t WINDOW_SIZE = 30u;
+static constexpr float BINS_LOWER_LIMIT = 10000;
+static constexpr float BINS_UPPER_LIMIT = 50000;
+static constexpr float SAMPLING_RATE = 250000;
+static constexpr float BIN_WIDTH = SAMPLING_RATE/static_cast<float>(BUFFER_SIZE);
 
 std::vector<std::vector<float>> load_file(const std::string& file_name)
 {
@@ -80,6 +92,15 @@ void show_file(const std::vector<std::vector<float>>& file_rows, const size_t nu
     }
 }
 
+void process_file(const std::vector<std::vector<float>>& file_rows)
+{
+    // Used by FFTW to calculate fft
+    std::array<double, BUFFER_SIZE> fft_buffer_;
+    std::array<fftw_complex, BUFFER_SIZE> fft_res_;
+    fftw_plan fft_algo_plan_ = fftw_plan_dft_r2c_1d(BUFFER_SIZE, fft_buffer_.data(), fft_res_.data(), FFTW_ESTIMATE);
+    fftw_destroy_plan(fft_algo_plan_);
+}
+
 void process_files(const std::string& data_folder, const std::vector<std::string>& files_list, const std::string& output_file)
 {
     bool showed_first = false;
@@ -93,6 +114,8 @@ void process_files(const std::string& data_folder, const std::vector<std::string
             show_file(file_rows);
             showed_first = true;
         }
+
+        process_file(file_rows);
 
         break;
     }
