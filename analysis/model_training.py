@@ -48,12 +48,14 @@ if (DISPLAY_CONFUSION) :
 
 print("\r\nTESTING MODEL\r\n")
 
+index = 1500
+sample_df = df.iloc[index, :]
+X = sample_df.drop(['conditions', 'time', 'arc'])
+X = sample_df.iloc[FEATURE_INDICES].to_numpy().reshape(1, -1)
+
 print("Test 1: ")
-print("Sample: ")
-X = X_test[:1]
-y = y_test[:1]
+print("conditions = ", sample_df[['conditions']].to_list()[0], " arc = ", sample_df[['arc']].to_list()[0])
 print(X)
-print(y)
 print("result: ")
 # y_pred_lib = regressor.predict(X)
 y_pred_lib = regressor.decision_function(X)
@@ -64,11 +66,13 @@ print("Manual operation result: ", res)
 
 
 print("\r\nTest 2: ")
-X = X_test[3:4]
-y = y_test[3:4]
-print(X)
-print(y)
+index = 701
+sample_df = df.iloc[index, :]
+X = sample_df.drop(['conditions', 'time', 'arc'])
+X = sample_df.iloc[FEATURE_INDICES].to_numpy().reshape(1, -1)
 
+print("conditions = ", sample_df[['conditions']].to_list()[0], " arc = ", sample_df[['arc']].to_list()[0])
+print(X)
 print("result: ")
 # y_pred_lib = regressor.predict(X)
 y_pred_lib = regressor.decision_function(X)

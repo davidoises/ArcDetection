@@ -28,24 +28,30 @@ namespace ARC::DETECT
 
             // Some parameters that define the model behavior
             static constexpr std::size_t BUFFER_SIZE = 512u;
+            static constexpr std::size_t OVERLAP = 128u;
+            static constexpr std::size_t STEP = BUFFER_SIZE - OVERLAP;
             static constexpr std::size_t WINDOW_SIZE = 30u;
             static constexpr float BINS_LOWER_LIMIT = 10000;
             static constexpr float BINS_UPPER_LIMIT = 50000;
             static constexpr float SAMPLING_RATE = 250000;
             static constexpr float BIN_WIDTH = SAMPLING_RATE/static_cast<float>(BUFFER_SIZE);
 
-            static constexpr std::array<float, 5u> ML_COEFS = {0.00118217f, 0.00097595f, 0.00121148f, 0.00081282f, 0.00118098f};
-            static constexpr float ML_INTERCEPT = -1.00314153f + 0.999; /** TODO: Removed the 0.999 */
+            static constexpr std::array<float, 5u> ML_COEFS = {0.00092834f, 0.00093834f, 0.00080337f, 0.00131207f, 0.00125999f};
+            static constexpr float ML_INTERCEPT = -1.00331676f;
 
-            // Containers for data processing operations
-            std::array<double, BUFFER_SIZE> fft_buffer_;
-            size_t fft_buffer_index_;
+            // Containers for SVM model computation
             std::deque<ArcFeatures_U> detection_window_;
             ArcFeatures_U ml_input_;
 
             // Used by FFTW to calculate fft
             std::array<fftw_complex, BUFFER_SIZE> fft_res_;
             fftw_plan fft_algo_plan_;
+
+            // Containers for spectrogram computation
+            std::deque<double> fft_rolling_buffer_;
+            std::array<double, BUFFER_SIZE> fft_buffer_;
+            std::array<double, BUFFER_SIZE> hann_window;
+            uint32_t prev_index_;
 
             // Output data
             OutputMsgType result_message_;

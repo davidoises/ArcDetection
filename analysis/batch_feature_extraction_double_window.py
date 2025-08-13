@@ -88,6 +88,11 @@ def process_files(data_folder, files_list, output_filename):
     # Iterate through each single file in the folder
     for file in files_list:
 
+        # if (file[:-9] == "test_A0_B3_C3_D8_A300_B150_C200_D330_A1e-05_B6e-05_C0.00014_D0.00015") and (int(file[-5:-4]) == 1):
+        #     print("found")
+        # else:
+        #     continue
+
         ##### START 1. Loading and formatting data #####
 
         # Load the raw data
