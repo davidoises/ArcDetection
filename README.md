@@ -1,9 +1,10 @@
 # ArcDetection
 ML Project for real-time arc detection
 
-The project is meant to be used as a ROS2 package. This means it would be installed in the src directory of ROS2 workspace.
+The project is meant to be used as a ROS2 package. (to be installed in the src directory of ROS2 workspace).
+The nodes in the package simulate the chain of an ADC reading electrical currents -> sending to a DMA that buffers them -> a machine learning model (SVM linear kernel) that detects faults.
 
-The dataset for training can be found in this link:
+The dataset for training was generated in simulink with electrical noise from a switching converter and arc noise gnerated with as a whyt noise bandwidth limited siganl. The dataset can be found here:
 https://data.mendeley.com/datasets/pd93m3c4rz/1
 
 Plotjugler is used for visualization.
