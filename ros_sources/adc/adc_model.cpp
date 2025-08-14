@@ -10,17 +10,29 @@
 namespace ARC::ADC
 {
 
-    ADCModel::ADCModel() :
+    ADCModel::ADCModel(const std::string base_path) :
         Node("adc_model"),
+        base_path_(base_path),
         row_index_(0u),
-        timer_
-        (
-            create_wall_timer(execution_period_, [this](){
-            process();
-            })
-        ),
         publisher_(create_publisher<MsgType>(DEFS::CURRENT_MEASUREMENT_TOPIC, 10))
     {
+        // Defining parameters
+        declare_parameter("filename", ""); // defaults to ""
+        declare_parameter("period_us", 1000); // defaults to 1000
+
+        // Getting their values
+        get_parameter("filename", file_name_);
+        int period;
+        get_parameter("period_us", period);
+        execution_period_ = std::chrono::microseconds(period);
+
+        RCLCPP_INFO(get_logger(), "Parameter 'filename': %s", file_name_.c_str());
+        RCLCPP_INFO(get_logger(), "Parameter 'period_us': %ld", execution_period_.count());
+
+        // Creating the periodic execution based on parameter
+        timer_ = create_wall_timer(execution_period_, [this](){
+            process();
+        });
     }
 
     void ADCModel::process()
@@ -54,8 +66,10 @@ namespace ARC::ADC
         }
     }
 
-    bool ADCModel::load_file(const std::string& file_name)
+    bool ADCModel::load_file()
     {
+        const std::string file_name = base_path_ + file_name_;
+
         // First check if file exists
         if (!std::filesystem::exists(file_name))
         {

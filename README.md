@@ -134,7 +134,7 @@ To build the ROS simulation:
 
 i. Go to the base of the workspace
 ii. Do:
-colcon build
+colcon build --symlink-install
 iii. Then:
 source install/setup.bash
 
@@ -142,4 +142,6 @@ To start:
 
 ros2 launch arc_detection arc_sim.launch.py
 
-Note: the simulation waits for 2 subscribers to be ready to start transferring data. 1 subscriber is the DMA and the second one is plotjuggler for visualization
+Notes:
+1. The simulation waits for 2 subscribers to be ready to start transferring data. 1 subscriber is the DMA and the second one is plotjuggler for visualization
+2. The yaml file with parameters is defined in the launch file. The parameters can be changed directly in the yaml file or a new one can be created and defined in the launch file. If not build with symlink install option, you need to do colcon build after modifying the launch script so that it gets updated in the install folder.
