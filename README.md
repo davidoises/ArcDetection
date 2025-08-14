@@ -6,6 +6,10 @@ The project is meant to be used as a ROS2 package. This means it would be instal
 The dataset for training can be found in this link:
 https://data.mendeley.com/datasets/pd93m3c4rz/1
 
+Plotjugler is used for visualization.
+
+![](graphics/arcdetect_vis.png)
+
 ## Workspace structure
 
 This project assumes the dataset is stored in a subfolder called arc_data. The workspace structure, including the dataset, would look like this:
