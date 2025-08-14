@@ -5,6 +5,7 @@
 #include "arc_detection/msg/ml_features.hpp"
 #include "arc_detection/msg/ml_result.hpp"
 #include "arc_detection/msg/indexed_series.hpp"
+#include "arc_detection/msg/time_series.hpp"
 
 // ROS includes
 #include "std_msgs/msg/float32.hpp"
@@ -15,7 +16,8 @@
 
 namespace ARC::DEFS
 {
-    using AdcDataType = arc_detection::msg::IndexedSeries;
+    // using AdcDataType = arc_detection::msg::IndexedSeries;
+    using AdcDataType = arc_detection::msg::TimeSeries;
     using DetectionDataType = arc_detection::msg::MLResult;
     using FFTDataType = arc_detection::msg::FFT;
     using MLFeaturesDataType = arc_detection::msg::MLFeatures;

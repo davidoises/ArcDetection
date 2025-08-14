@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 from csv import writer
 import sys
 
+# Module from pybind11 from C++ code
+import fft_calculator
+
 ##### Some constants and important definitions #####
 
 def _range(series):
@@ -51,7 +54,7 @@ def reshape_spectrogram(bin_width, orig_freqs, data):
 
     freqs_bins_index = 0
     for i in range(number_of_bins):
-        frequency_bin = (i+1)*bin_width
+        frequency_bin = (i)*bin_width
 
         current_bin_indexes = []
         while True:
@@ -84,6 +87,11 @@ def process_files(data_folder, files_list, output_filename):
 
     # Iterate through each single file in the folder
     for file in files_list:
+
+        # if (file[:-9] == "test_A0_B3_C3_D8_A300_B150_C200_D330_A1e-05_B6e-05_C0.00014_D0.00015") and (int(file[-5:-4]) == 1):
+        #     print("found")
+        # else:
+        #     continue
 
         ##### START 1. Loading and formatting data #####
 
@@ -122,10 +130,13 @@ def process_files(data_folder, files_list, output_filename):
         ##### START 3. Frequency domain data extraction #####
 
         # Get spectrogram
-        Pxx, freqs, time_bins, im = plt.specgram(df['adc_data'], Fs=SAMPLING_RATE, NFFT=FFT_BUFFER_SIZE)
+        # new_pxx, freqs, time_bins, im = plt.specgram(df['adc_data'], Fs=SAMPLING_RATE, NFFT=FFT_BUFFER_SIZE)
+        # new_freqs = freqs[:, None]
+        new_pxx, freqs = fft_calculator.get_spectrogram(df['adc_data'], SAMPLING_RATE, FFT_BUFFER_SIZE, 128)
+        new_freqs = freqs[:, None]
 
         # Resample spectrogram if needed (Changing resolution of frequency bins)
-        new_freqs, new_pxx = reshape_spectrogram(BIN_RESOLUTION, freqs, Pxx)
+        # new_freqs, new_pxx = reshape_spectrogram(BIN_RESOLUTION, freqs, Pxx)
 
         # Empty dataframe to store contents of spectrogram in final format
         freq_data_df = pd.DataFrame()
@@ -137,7 +148,7 @@ def process_files(data_folder, files_list, output_filename):
             if new_freqs[i,0] > LOWER_BOUND and new_freqs[i,0] < UPPER_BOUND:
 
                 # Create a new column for each bin
-                bin_name = 'bin_' + str(new_freqs[i-1,0])
+                bin_name = 'bin_' + str(new_freqs[i,0])
                 freq_data_df[bin_name] = new_pxx[i,:]
 
         # Calculate the sum of all the magnitudes of the FFT at different frequencies

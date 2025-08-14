@@ -37,6 +37,7 @@ namespace ARC::ADC
         if (row_index_ < input_file_rows_.size())
         {
             message_.index = static_cast<uint32_t>(row_index_);
+            message_.time = static_cast<float>(input_file_rows_[row_index_][0u]);
             message_.data = input_file_rows_[row_index_][1u];
             RCLCPP_DEBUG(get_logger(), "Data: '%f'", message_.data);
             publisher_->publish(message_);
@@ -76,7 +77,7 @@ namespace ARC::ADC
         while (std::getline(file, line))
         {
             // Create a row from a csv line
-            std::vector<float> row;
+            std::vector<double> row;
             std::stringstream ss(line);
             std::string cell;
             while (std::getline(ss, cell, ','))
@@ -84,7 +85,7 @@ namespace ARC::ADC
                 // Safe conversion to float
                 try
                 {
-                    const float value = std::stof(cell);
+                    const double value = std::stod(cell);
                     row.push_back(value);
                 }
                 catch(const std::invalid_argument& e)
@@ -111,7 +112,7 @@ namespace ARC::ADC
 
         // Print line by line
         size_t line_count = 0u;
-        for (const std::vector<float>& row : input_file_rows_)
+        for (const auto& row : input_file_rows_)
         {
 
             // Stop after reaching the specified number of lines

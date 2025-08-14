@@ -10,7 +10,7 @@ namespace ARC::DETECT
     union ArcFeatures_U
     {
         ARC::DEFS::MLFeaturesDataType data{};
-        std::array<float, 5u> cols;
+        std::array<double, 5u> cols;
     };
     
 }

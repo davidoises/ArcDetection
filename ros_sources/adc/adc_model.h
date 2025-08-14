@@ -46,7 +46,7 @@ namespace ARC::ADC
             MsgType message_;
 
             // Loaded data from csv
-            std::vector<std::vector<float>> input_file_rows_;
+            std::vector<std::vector<double>> input_file_rows_;
 
             // Line index to iterate through the file in a periodic call
             size_t row_index_;

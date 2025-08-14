@@ -20,6 +20,7 @@ set(MSG_FILES
   "interfaces/msg/MLFeatures.msg"
   "interfaces/msg/MLResult.msg"
   "interfaces/msg/IndexedSeries.msg"
+  "interfaces/msg/TimeSeries.msg"
 )
 
 rosidl_generate_interfaces(${PROJECT_NAME}
