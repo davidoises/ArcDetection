@@ -14,6 +14,14 @@ def generate_launch_description():
         ),
         Node(
             package='arc_detection',
+            executable='dma_model',
+            on_exit=[actions.Shutdown()],
+            ros_arguments=[
+                '--log-level', 'dma_model:=info'
+            ],
+        ),
+        Node(
+            package='arc_detection',
             executable='detection_model',
             ros_arguments=[
                 '--log-level', 'detection_model:=info'

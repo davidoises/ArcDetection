@@ -11,10 +11,10 @@
 
 namespace ARC::ADC
 {
-    class ADCModel : public rclcpp::Node
+    class ADCModel final : public rclcpp::Node
     {
         public:
-            using MsgType = ARC::DEFS::AdcDataType;
+            using MsgType = DEFS::AdcDataType;
 
             ADCModel();
 
