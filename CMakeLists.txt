@@ -17,6 +17,7 @@ find_package(rosidl_default_generators REQUIRED)
 
 set(MSG_FILES
   "interfaces/msg/FFT.msg"
+  "interfaces/msg/FFTBuffer.msg"
   "interfaces/msg/MLFeatures.msg"
   "interfaces/msg/MLResult.msg"
   "interfaces/msg/IndexedSeries.msg"
@@ -56,6 +57,33 @@ target_link_libraries(${ADC_EXECUTABLE} "${cpp_typesupport_target}")
 
 ament_target_dependencies(${ADC_EXECUTABLE} rclcpp std_msgs)
 
+########### DMA Node ###########
+
+set(DMA_EXECUTABLE dma_model)
+
+set(DMA_SRC_FILES
+    ${CMAKE_CURRENT_SOURCE_DIR}/ros_sources/dma/main.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ros_sources/dma/dma_model.cpp
+)
+
+set(DMA_INC_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/ros_sources/common/
+    ${CMAKE_CURRENT_SOURCE_DIR}/ros_sources/dma/
+)
+
+add_executable(${DMA_EXECUTABLE}
+    ${DMA_SRC_FILES}
+)
+target_include_directories(${DMA_EXECUTABLE} PRIVATE  
+    ${DMA_INC_DIRS}
+)
+
+rosidl_get_typesupport_target(cpp_typesupport_target
+  ${PROJECT_NAME} rosidl_typesupport_cpp)
+target_link_libraries(${DMA_EXECUTABLE} "${cpp_typesupport_target}")
+
+ament_target_dependencies(${DMA_EXECUTABLE} rclcpp std_msgs)
+
 ########### Arc detection Node ###########
 
 set(DETECTION_EXECUTABLE detection_model)
@@ -90,6 +118,7 @@ ament_target_dependencies(${DETECTION_EXECUTABLE} rclcpp std_msgs)
 install(TARGETS
   ${ADC_EXECUTABLE}
   ${DETECTION_EXECUTABLE}
+  ${DMA_EXECUTABLE}
   DESTINATION lib/${PROJECT_NAME}
 )
 

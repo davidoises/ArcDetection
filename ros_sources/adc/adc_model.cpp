@@ -12,13 +12,15 @@ namespace ARC::ADC
 
     ADCModel::ADCModel() :
         Node("adc_model"),
-        row_index_(0u)
-    {
-        publisher_ = create_publisher<MsgType>(ARC::DEFS::current_measurement_topic, 100);
-
-        timer_ = create_wall_timer(execution_period_, [this](){
+        row_index_(0u),
+        timer_
+        (
+            create_wall_timer(execution_period_, [this](){
             process();
-        });
+            })
+        ),
+        publisher_(create_publisher<MsgType>(DEFS::CURRENT_MEASUREMENT_TOPIC, 10))
+    {
     }
 
     void ADCModel::process()
