@@ -16,16 +16,15 @@ namespace ARC::ADC
         public:
             using MsgType = DEFS::AdcDataType;
 
-            ADCModel();
+            explicit ADCModel(const std::string base_path);
 
             /**
              * @brief Loads a CSV file as a vector of vectors of floats.
              *        Doesn't perform any format checks besides the conversion to float.
-             * 
-             * @param file  File path of the csv to be loaded
+             *
              * @return bool Return true on success
              */
-            bool load_file(const std::string& file);
+            bool load_file();
 
             /**
              * @brief Displays the format and some of the lines from the loaded file.
@@ -42,6 +41,10 @@ namespace ARC::ADC
              */
             void process();
 
+            // File to read the data
+            std::string base_path_;
+            std::string file_name_;
+
             // Output data
             MsgType message_;
 
@@ -53,7 +56,7 @@ namespace ARC::ADC
 
             // Periodic execution of the adc process
             rclcpp::TimerBase::SharedPtr timer_;
-            static constexpr std::chrono::microseconds execution_period_{1000};
+            std::chrono::microseconds execution_period_{0};
 
             rclcpp::Publisher<MsgType>::SharedPtr publisher_;
     };

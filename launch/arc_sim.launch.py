@@ -9,7 +9,8 @@ def generate_launch_description():
             executable='adc_model',
             on_exit=[actions.Shutdown()],
             ros_arguments=[
-                '--log-level', 'adc_model:=info'
+                '--log-level', 'adc_model:=info',
+                '--params-file', 'src/ArcDetection/params/default.yaml',
             ],
         ),
         Node(

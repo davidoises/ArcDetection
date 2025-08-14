@@ -1,0 +1,5 @@
+adc_model:
+  ros__parameters:
+    filename: "test_A0_B3_C3_D5_A300_B150_C200_D330_A0.00017_B0.00017_C0.00014_D0.00015_arc1.csv"
+    # filename: "test_A0_B3_C3_D8_A300_B150_C200_D330_A1e-05_B6e-05_C0.00014_D0.00015_arc1.csv"
+    period_us: 1000
